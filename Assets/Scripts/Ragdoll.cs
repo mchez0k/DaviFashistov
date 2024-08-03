@@ -6,19 +6,17 @@ public class Ragdoll : MonoBehaviour
 {
     [SerializeField] private Rigidbody[] bodyRigidbodies;
     [SerializeField] private Animator animator;
-    public Rigidbody mainRb;
+
+    [SerializeField] private AudioClip[] sounds;
+    [SerializeField] private AudioSource audioSource;
+
+    public bool isDead = false;
     private void Start()
     {
-        // Найдем все Rigidbody в родительском объекте
         bodyRigidbodies = GetComponentsInChildren<Rigidbody>();
-        //foreach (var body in bodyRigidbodies)
-        //{
-        //    body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        //}
         animator = GetComponent<Animator>();
-        mainRb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
 
-        // Сначала выключим все Rigidbody для ragdoll
         ToggleRagdoll(false);
     }
 
@@ -32,6 +30,25 @@ public class Ragdoll : MonoBehaviour
         foreach (Rigidbody rb in bodyRigidbodies)
         {
             rb.isKinematic = !isActive; // Включаем/выключаем физику
+        }
+    }
+
+    internal void LaunchRaggdol(float force, Vector3 direction)
+    {
+        foreach (var item in bodyRigidbodies)
+        {
+            item.AddForce(force * direction, ForceMode.Impulse);
+        }
+        PlayRandomSound();
+    }
+
+    private void PlayRandomSound()
+    {
+        if (isDead) return; // если умирает в LaunchRaggdol, то нет корректного импульса
+        if (sounds.Length > 0)
+        {
+            AudioClip randomClip = sounds[Random.Range(0, sounds.Length)];
+            audioSource.PlayOneShot(randomClip);
         }
     }
 }

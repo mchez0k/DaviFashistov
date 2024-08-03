@@ -11,6 +11,9 @@ public class CarController : MonoBehaviour
     [Tooltip("Set ref of wheel meshes in order of  FL, FR, RL, RR")]
     public Transform[] Wheels;
 
+    [SerializeField] private AudioClip sound;
+    [SerializeField] private AudioSource audioSource;
+
     public Transform CenterOfMass;
     public Transform MainWheel;
     public Transform RotatePoint;
@@ -35,6 +38,7 @@ public class CarController : MonoBehaviour
         //Time.timeScale = 0.5f;
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = CenterOfMass.localPosition;
+        audioSource.Play();
     }
 
     private void FixedUpdate()
@@ -44,32 +48,17 @@ public class CarController : MonoBehaviour
         Brake();
         UpdateWheelMovements();
         UpdateMainWheel();
+
+
     }
-
-    //private void OnCollisionEnter(Collision other)
-    //{
-    //    Debug.Log("colliderEnter");
-    //    if (other.transform.root.TryGetComponent(out Ragdoll ragdoll)) // Проверяем тег коллидера
-    //    {
-    //        Debug.Log("ragdoll");
-    //        ragdoll.ToggleRagdoll(true);
-    //        //other.GetComponent<CapsuleCollider>().enabled = false;
-    //        //Destroy(GetComponent<CapsuleCollider>());
-
-    //    }
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("colliderEnter");
         if (other.transform.root.TryGetComponent(out Ragdoll ragdoll)) // Проверяем тег коллидера
         {
-            Debug.Log("ragdoll");
-            ragdoll.mainRb.AddForce(transform.forward * 100f, ForceMode.VelocityChange);
+            ragdoll.LaunchRaggdol(1f, transform.forward);
             ragdoll.ToggleRagdoll(true);
-            //other.GetComponent<CapsuleCollider>().enabled = false;
-            //Destroy(GetComponent<CapsuleCollider>());
-
+            ragdoll.isDead = true;
         }
     }
 

@@ -17,7 +17,6 @@ public class EngineSound : MonoBehaviour
         cc = GetComponent<CarController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         pitchFromCar = cc.carCurrentSpeed;
