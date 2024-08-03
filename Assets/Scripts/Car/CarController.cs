@@ -54,10 +54,10 @@ public class CarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.root.TryGetComponent(out Ragdoll ragdoll)) // Проверяем тег коллидера
+        if (other.transform.root.TryGetComponent(out Ragdoll ragdoll) && !ragdoll.isDead) // Проверяем тег коллидера
         {
-            ragdoll.LaunchRaggdol(1f, transform.forward);
             ragdoll.ToggleRagdoll(true);
+            ragdoll.LaunchRaggdol(2f, transform.forward); // Запускаем в космос
             ragdoll.isDead = true;
         }
     }

@@ -35,6 +35,7 @@ public class Ragdoll : MonoBehaviour
 
     internal void LaunchRaggdol(float force, Vector3 direction)
     {
+        Debug.Log("меня сбили блять");
         foreach (var item in bodyRigidbodies)
         {
             item.AddForce(force * direction, ForceMode.Impulse);
@@ -44,7 +45,6 @@ public class Ragdoll : MonoBehaviour
 
     private void PlayRandomSound()
     {
-        if (isDead) return; // если умирает в LaunchRaggdol, то нет корректного импульса
         if (sounds.Length > 0)
         {
             AudioClip randomClip = sounds[Random.Range(0, sounds.Length)];
