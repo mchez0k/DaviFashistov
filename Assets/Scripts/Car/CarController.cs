@@ -59,6 +59,7 @@ public class CarController : MonoBehaviour
             ragdoll.ToggleRagdoll(true);
             ragdoll.LaunchRaggdol(2f, transform.forward); // Запускаем в космос
             ragdoll.isDead = true;
+            BaseSpawner.currentEnemy--;
         }
     }
 

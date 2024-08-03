@@ -50,5 +50,6 @@ public class Ragdoll : MonoBehaviour
             AudioClip randomClip = sounds[Random.Range(0, sounds.Length)];
             audioSource.PlayOneShot(randomClip);
         }
+        Destroy(gameObject, 10f);
     }
 }

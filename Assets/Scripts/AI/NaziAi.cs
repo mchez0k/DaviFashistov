@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NaziAi : MonoBehaviour
 {
@@ -9,17 +10,27 @@ public class NaziAi : MonoBehaviour
     {
         // Получение компонента агента
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent.enabled = true;
     }
 
     private void FixedUpdate()
     {
-        if (goal != null)
+        if (agent != null)
         {
-            Debug.Log("Пидорас обнаружен");
-            agent.destination = goal;
-        } else
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(goal, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                Debug.Log("Пидорас обнаружен");
+                agent.destination = hit.position; // Используем hit для установки позиции
+            }
+            else
+            {
+                Debug.Log("Цель не на NavMesh");
+            }
+        }
+        else
         {
-            Debug.Log("Страдаю хуйнёй");
+            Debug.Log("Agent не найден");
         }
     }
 }
