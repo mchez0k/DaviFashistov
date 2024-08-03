@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 169.94
+      value: 173.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1153.2
+      value: 1162.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -200,9 +200,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nemez
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1339101018200438765, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}
       propertyPath: m_Layer
@@ -1292,7 +1296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91b9dfa9148adf40aa7e5352231d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: {fileID: 0}
+  goal: {x: 0, y: 0, z: 0}
 --- !u!1 &5057103266599479121 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1082271958561512970, guid: d3c55571a30203f4a9ee9ba0c66a6e8f, type: 3}

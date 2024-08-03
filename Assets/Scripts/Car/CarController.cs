@@ -46,7 +46,7 @@ public class CarController : MonoBehaviour
         Steer();
         Drive();
         Brake();
-        UpdateWheelMovements();
+        //UpdateWheelMovements(); включить, когда разделим колёса
         UpdateMainWheel();
 
 

@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NaziAi : MonoBehaviour
 {
     // Положение точки назначения
-    public Transform goal;
+    public Vector3 goal;
     private UnityEngine.AI.NavMeshAgent agent;
     void Start()
     {
@@ -15,6 +13,13 @@ public class NaziAi : MonoBehaviour
 
     private void FixedUpdate()
     {
-        agent.destination = goal.position;
+        if (goal != null)
+        {
+            Debug.Log("Пидорас обнаружен");
+            agent.destination = goal;
+        } else
+        {
+            Debug.Log("Страдаю хуйнёй");
+        }
     }
 }
