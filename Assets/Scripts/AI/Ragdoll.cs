@@ -27,19 +27,26 @@ public class Ragdoll : MonoBehaviour
         {
             animator.enabled = !isActive; // Отключаем Animator, если isActive = true
         }
-        foreach (Rigidbody rb in bodyRigidbodies)
+        for (int i = 0; i < bodyRigidbodies.Length; i++)
         {
-            rb.isKinematic = !isActive; // Включаем/выключаем физику
+            bodyRigidbodies[i].isKinematic = !isActive; // Включаем/выключаем физику
         }
+        //foreach (Rigidbody rb in bodyRigidbodies)
+        //{
+        //    rb.isKinematic = !isActive; // Включаем/выключаем физику
+        //}
     }
 
     internal void LaunchRaggdol(float force, Vector3 direction)
     {
-        Debug.Log("меня сбили блять");
-        foreach (var item in bodyRigidbodies)
+        for (int i = 0; i < bodyRigidbodies.Length; i++)
         {
-            item.AddForce(force * direction, ForceMode.Impulse);
+            bodyRigidbodies[i].AddForce(force * direction, ForceMode.Impulse); // Включаем/выключаем физику
         }
+        //foreach (var item in bodyRigidbodies)
+        //{
+        //    item.AddForce(force * direction, ForceMode.Impulse);
+        //}
         PlayRandomSound();
     }
 

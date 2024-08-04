@@ -2,49 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController : MonoCache
 {
-    public CarInput InputCtrl;
-    [Tooltip("Set ref in order of FL, FR, RL, RR")]
+    private CarInput InputCtrl;
+
+    [Header("Колёса")]
     public WheelCollider[] WheelColliders;
-
-    [Tooltip("Set ref of wheel meshes in order of  FL, FR, RL, RR")]
     public Transform[] Wheels;
+    [Space(10)]
 
+    [Header("Позиции")]
+    [SerializeField] private Transform CenterOfMass;
+    [SerializeField] private Transform MainWheel;
+    [SerializeField] private Transform SecondRotatePoint;
+    [SerializeField] private Transform Camera;
+    [Space(10)]
+
+    [Header("Звуки")]
+    [SerializeField] private EngineSound engineSound;
     [SerializeField] private AudioClip sound;
     [SerializeField] private AudioSource audioSource;
 
-    public Transform CenterOfMass;
-    public Transform MainWheel;
-    public Transform RotatePoint;
-    public Transform SecondRotatePoint;
-    public Transform Camera;
-
     private Vector3 needAxis;
+    [Space(10)]
 
-    public float Force;
-    public float minSteeringAngle = -27f;
-    public float maxSteeringAngle = 27f;
-    public float steeringSpeed = 10f;
-    public int BrakeForce;
+    [Header("Настройки машины")]
+    [SerializeField] private float force;
+    [SerializeField] private float brakeForce;
+    [Space(2)]
+    [SerializeField] private float kickForce = 1f;
 
-    public float carMaxSpeed = 100;
-    public float carCurrentSpeed = 0;
+    [Space(2)]
+    [SerializeField] private float carMaxSpeed = 100;
+    [SerializeField] internal float carCurrentSpeed = 0;
+    [Space(2)]
+    [SerializeField] private float minSteeringAngle = -27f;
+    [SerializeField] private float maxSteeringAngle = 27f;
+    [SerializeField] private float steeringSpeed = 10f;
 
     private float currentSteeringAngle = 0f;
     private Vector3 initialCameraPosition;
 
     Rigidbody rb;
 
-    private void Start()
+    private void Awake()
     {
-
+        engineSound = GetComponent<EngineSound>();
+        InputCtrl = GetComponent<CarInput>();
         rb = GetComponent<Rigidbody>();
+
         rb.centerOfMass = CenterOfMass.localPosition;
+
         audioSource.Play();
     }
 
-    private void FixedUpdate()
+    public override void OnFixedTick()
     {
         Steer();
         Drive();
@@ -52,29 +64,41 @@ public class CarController : MonoBehaviour
         UpdateWheelMovements(); //включить, когда разделим колёса
         UpdateMainWheel();
         CameraControl();
+        engineSound.CheckForAISound();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.root.TryGetComponent(out Ragdoll ragdoll) && !ragdoll.isDead) // Проверяем тег коллидера
         {
+            var direction = other.transform.position - transform.position;
+            direction.y -= 2f;
             ragdoll.ToggleRagdoll(true);
-            ragdoll.LaunchRaggdol(2f, transform.forward); // Запускаем в космос
+            if (carCurrentSpeed < 0.5)
+            {
+                kickForce = 1f;
+            } else
+            {
+                kickForce = 2f * carCurrentSpeed;
+            }
+            ragdoll.LaunchRaggdol(kickForce, direction); // Запускаем в космос
             ragdoll.isDead = true;
             BaseSpawner.currentEnemy--;
         }
     }
 
+    #region Handle
     //Drive forward/backward
     private void Drive()
     {
-        WheelColliders[2].motorTorque = InputCtrl.Vertical * Force;
+        carCurrentSpeed = (rb.velocity.magnitude * 5f) / carMaxSpeed;
+        if (carCurrentSpeed > 1) return;
+        WheelColliders[2].motorTorque = WheelColliders[3].motorTorque = InputCtrl.Vertical * force;
     }
 
     //Steer left/right
     private void Steer()
     {
-        carCurrentSpeed = (rb.velocity.magnitude * 3.6f) / carMaxSpeed;
         float targetSteeringAngle = maxSteeringAngle * Input.GetAxis("Horizontal");
         currentSteeringAngle = Mathf.Lerp(currentSteeringAngle, targetSteeringAngle, Time.deltaTime * steeringSpeed);
 
@@ -89,7 +113,7 @@ public class CarController : MonoBehaviour
         //float rotationAmount = currentSteeringAngle * Time.deltaTime * steeringSpeed; // Пропорциональное значение поворота
         //MainWheel.Rotate(needAxis, rotationAmount); // Вращаем вокруг оси Z, инвертируем знак
 
-        needAxis = (SecondRotatePoint.position - RotatePoint.position).normalized;
+        needAxis = (SecondRotatePoint.position - MainWheel.position).normalized;
         Quaternion rotation = Quaternion.AngleAxis(currentSteeringAngle, needAxis);
 
         // Применение вращения к объекту
@@ -99,7 +123,7 @@ public class CarController : MonoBehaviour
     //Apply brakes
     private void Brake()
     {
-        WheelColliders[2].brakeTorque = WheelColliders[2].brakeTorque = InputCtrl.Brake * BrakeForce;
+        WheelColliders[2].brakeTorque = WheelColliders[2].brakeTorque = InputCtrl.Brake * brakeForce;
     }
 
     private void CameraControl()
@@ -124,4 +148,5 @@ public class CarController : MonoBehaviour
             Wheels[i].transform.rotation = rot;
         }
     }
+    #endregion
 }

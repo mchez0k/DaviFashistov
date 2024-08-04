@@ -6,6 +6,7 @@ public class BaseSpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public static int maxEnemy = 15;
     public static int currentEnemy = 0;
+    public int MaxEnemy;
 
     public float timeSpawn = 2f;
     private float timer;
@@ -14,6 +15,7 @@ public class BaseSpawner : MonoBehaviour
 
     private void Start()
     {
+        maxEnemy = MaxEnemy;
         timer = timeSpawn;
     }
 

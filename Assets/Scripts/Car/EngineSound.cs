@@ -20,7 +20,7 @@ public class EngineSound : MonoBehaviour
         cc = GetComponent<CarController>();
     }
 
-    void FixedUpdate()
+    public void CheckForAISound()
     {
         engineModifier = cc.carCurrentSpeed;
         if (engineModifier < minPitch)
@@ -31,10 +31,8 @@ public class EngineSound : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, baseDetectionRadius * engineModifier, naziLayer); //Оптимизировать не в FixedUpdate
         foreach (var hitCollider in hitColliders)
         {
-            Debug.Log($"Был пойман {hitCollider.name}");
             hitCollider.transform.root.TryGetComponent(out NaziAi naziBot);
-            naziBot.goal = transform.position;
-            // Смена состояния
+            naziBot.SetDestination(transform.position);
         }
     }
 }
