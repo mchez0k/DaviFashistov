@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ZovRodini.Movement
 {
-    public class WalkState : MovementState
+    public class WalkState : StateManager
     {
         private float speed;
 

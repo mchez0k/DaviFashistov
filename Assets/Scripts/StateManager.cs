@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace ZovRodini.Movement
+namespace ZovRodini
 {
-    public abstract class MovementState
+    public abstract class StateManager
     {
         protected Character character;
 
-        public MovementState(Character character) // TODO: Оптимизировать
+        public StateManager(Character character) // TODO: Оптимизировать
         {
             this.character = character;
         }

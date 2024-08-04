@@ -33,7 +33,7 @@ namespace ZovRodini
         [SerializeField] private LayerMask aimColliderMask = new LayerMask();
         [SerializeField] internal Transform DebugTransform;
 
-        private MovementState currentState;
+        private StateManager currentState;
         private float VerticalVelocity = -2f;
 
         #endregion
@@ -64,7 +64,7 @@ namespace ZovRodini
             currentState.UpdateState(this);
         }
 
-        public void SetState(MovementState state)
+        public void SetState(StateManager state)
         {
             currentState?.ExitState(this);
             currentState = state;

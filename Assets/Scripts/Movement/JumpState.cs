@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ZovRodini.Movement
 {
-    public class JumpState : MovementState
+    public class JumpState : StateManager
     {
         private float jumpForce;
         private float jumpTime = 0f;

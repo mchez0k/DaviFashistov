@@ -5,11 +5,11 @@ public class NaziAi : MonoBehaviour
 {
     // Положение точки назначения
     public Vector3 goal;
-    private UnityEngine.AI.NavMeshAgent agent;
+    private NavMeshAgent agent;
     void Start()
     {
         // Получение компонента агента
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         agent.enabled = true;
     }
 

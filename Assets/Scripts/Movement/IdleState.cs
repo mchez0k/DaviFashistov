@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ZovRodini.Movement
 {
-    public class IdleState : MovementState
+    public class IdleState : StateManager
     {
         public IdleState(Character character) : base(character)
         {

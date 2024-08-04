@@ -18,9 +18,11 @@ public class CarController : MonoBehaviour
     public Transform MainWheel;
     public Transform RotatePoint;
     public Transform SecondRotatePoint;
+    public Transform Camera;
+
     private Vector3 needAxis;
 
-    public int Force;
+    public float Force;
     public float minSteeringAngle = -27f;
     public float maxSteeringAngle = 27f;
     public float steeringSpeed = 10f;
@@ -30,12 +32,13 @@ public class CarController : MonoBehaviour
     public float carCurrentSpeed = 0;
 
     private float currentSteeringAngle = 0f;
+    private Vector3 initialCameraPosition;
 
     Rigidbody rb;
 
     private void Start()
     {
-        //Time.timeScale = 0.5f;
+
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = CenterOfMass.localPosition;
         audioSource.Play();
@@ -46,10 +49,9 @@ public class CarController : MonoBehaviour
         Steer();
         Drive();
         Brake();
-        //UpdateWheelMovements(); включить, когда разделим колёса
+        UpdateWheelMovements(); //включить, когда разделим колёса
         UpdateMainWheel();
-
-
+        CameraControl();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -97,7 +99,17 @@ public class CarController : MonoBehaviour
     //Apply brakes
     private void Brake()
     {
-        WheelColliders[2].brakeTorque = InputCtrl.Brake * BrakeForce;
+        WheelColliders[2].brakeTorque = WheelColliders[2].brakeTorque = InputCtrl.Brake * BrakeForce;
+    }
+
+    private void CameraControl()
+    {
+        // Рассчитываем новую позицию камеры в зависимости от текущей скорости
+        float speedFactor = carCurrentSpeed / carMaxSpeed;
+        Vector3 targetPosition = initialCameraPosition - new Vector3(0, 0, speedFactor * 20); // 10 - это максимальное смещение камеры
+
+        // Плавно изменяем позицию камеры
+        Camera.localPosition = Vector3.Lerp(Camera.localPosition, targetPosition, Time.deltaTime * 10); // 2 - это скорость интерполяции
     }
 
     //imitate the wheelcollider movements onto the wheel-meshes
