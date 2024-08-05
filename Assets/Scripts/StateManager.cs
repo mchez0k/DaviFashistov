@@ -4,24 +4,24 @@ namespace ZovRodini
 {
     public abstract class StateManager
     {
-        protected Character character;
+        protected NaziAi character;
 
-        public StateManager(Character character) // TODO: Оптимизировать
+        public StateManager(NaziAi character) // TODO: Оптимизировать
         {
             this.character = character;
         }
 
-        public virtual void EnterState(Character character)
-        {
-            character.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        }
-
-        public virtual void UpdateState(Character character)
+        public virtual void EnterState(NaziAi character)
         {
 
         }
 
-        public virtual void ExitState(Character character)
+        public virtual void UpdateState(NaziAi character)
+        {
+
+        }
+
+        public virtual void ExitState(NaziAi character)
         {
 
         }

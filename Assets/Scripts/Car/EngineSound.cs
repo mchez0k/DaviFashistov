@@ -32,7 +32,7 @@ public class EngineSound : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.transform.root.TryGetComponent(out NaziAi naziBot);
-            naziBot.SetDestination(transform.position);
+            naziBot.SoundDetected(transform.position);
         }
     }
 }

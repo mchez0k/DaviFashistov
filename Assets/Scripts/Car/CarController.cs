@@ -53,7 +53,7 @@ public class CarController : MonoCache
 
         rb.centerOfMass = CenterOfMass.localPosition;
 
-        audioSource.Play();
+        //audioSource.Play();
     }
 
     public override void OnFixedTick()
@@ -63,7 +63,9 @@ public class CarController : MonoCache
         Brake();
         UpdateWheelMovements(); //включить, когда разделим колёса
         UpdateMainWheel();
+
         CameraControl();
+
         engineSound.CheckForAISound();
     }
 
