@@ -20,6 +20,7 @@ public class CarController : MonoCache
 
     [Header("Звуки")]
     [SerializeField] private EngineSound engineSound;
+    [SerializeField] private CarVisibility carVisibility;
     [SerializeField] private AudioClip sound;
     [SerializeField] private AudioSource audioSource;
 
@@ -48,6 +49,7 @@ public class CarController : MonoCache
     private void Awake()
     {
         engineSound = GetComponent<EngineSound>();
+        carVisibility = GetComponent<CarVisibility>();
         InputCtrl = GetComponent<CarInput>();
         rb = GetComponent<Rigidbody>();
 
@@ -67,6 +69,7 @@ public class CarController : MonoCache
         CameraControl();
 
         engineSound.CheckForAISound();
+        carVisibility.CheckForAIVisible();
     }
 
     private void OnTriggerEnter(Collider other)

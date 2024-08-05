@@ -8,9 +8,7 @@ public class EngineSound : MonoBehaviour
     public float minPitch = 0.2f;
     private float engineModifier;
     private CarController cc;
-
-    public float baseDetectionRadius = 100f; // Радиус, в котором враги могут слышать звук
-    public LayerMask naziLayer; // Слой для определения игроков
+    private CarVisibility cvis;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +16,7 @@ public class EngineSound : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.pitch = minPitch;
         cc = GetComponent<CarController>();
+        cvis = GetComponent<CarVisibility>();
     }
 
     public void CheckForAISound()
@@ -28,11 +27,6 @@ public class EngineSound : MonoBehaviour
         else
             audioSource.pitch = engineModifier;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, baseDetectionRadius * engineModifier, naziLayer); //Оптимизировать не в FixedUpdate
-        foreach (var hitCollider in hitColliders)
-        {
-            hitCollider.transform.root.TryGetComponent(out NaziAi naziBot);
-            naziBot.SoundDetected(transform.position);
-        }
+        cvis.hearingRangeMod = engineModifier;
     }
 }
