@@ -6,9 +6,8 @@ public class EngineSound : MonoBehaviour
 {
     AudioSource audioSource;
     public float minPitch = 0.2f;
-    private float engineModifier;
+    internal float engineModifier = 0.2f;
     private CarController cc;
-    private CarVisibility cvis;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +15,6 @@ public class EngineSound : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.pitch = minPitch;
         cc = GetComponent<CarController>();
-        cvis = GetComponent<CarVisibility>();
     }
 
     public void CheckForAISound()
@@ -27,6 +25,5 @@ public class EngineSound : MonoBehaviour
         else
             audioSource.pitch = engineModifier;
 
-        cvis.hearingRangeMod = engineModifier;
     }
 }

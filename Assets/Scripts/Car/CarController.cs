@@ -92,6 +92,10 @@ public class CarController : MonoCache
         }
     }
 
+    internal Vector3 GetSpeedVector()
+    {
+        return transform.forward * (carCurrentSpeed * carMaxSpeed);
+    }
     #region Handle
     //Drive forward/backward
     private void Drive()
