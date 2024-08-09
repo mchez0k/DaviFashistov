@@ -8,11 +8,13 @@ public class NaziAi : MonoCache
 {
     private NavMeshAgent agent;
     internal StateManager currentState;
-    internal float commandDelay = 0.4f;
+
+    [SerializeField] internal float commandDelay = 0.4f;
     private float currentDelay = 0;
+
+    [SerializeField] internal float detectionAngle = 100f;
     void Awake()
     {
-        // Получение компонента агента
         agent = GetComponent<NavMeshAgent>();
         agent.enabled = true;
     }

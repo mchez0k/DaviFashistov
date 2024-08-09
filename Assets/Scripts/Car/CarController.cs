@@ -65,8 +65,6 @@ public class CarController : MonoCache
         UpdateMainWheel();
 
         CameraControl();
-
-        engineSound.CheckForAISound();
     }
 
     private void OnTriggerEnter(Collider other)
